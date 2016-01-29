@@ -47,6 +47,9 @@ class MasterViewController: UITableViewController {
     }
 
     func insertNewObject(sender: AnyObject) {
+        if detailViewController?.detailDescriptionLabel.editable == false {
+            return
+        }
         //this logic ensures that one does not have multiple blank notes, and we create a blank note IFF there are no notes
         //or there is a non-empty note on top
         if objects.count == 0 || objects[0] != BLANK_NOTE{
@@ -63,6 +66,9 @@ class MasterViewController: UITableViewController {
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //this ensures that we don't edit the wrong note while in edit mode
+        detailViewController?.detailDescriptionLabel.editable = true
+        
         //show detail is the string identifier that's attached to our detail view
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -111,6 +117,9 @@ class MasterViewController: UITableViewController {
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         if editing{
+            //this ensures that we don't edit the wrong note while in edit mode
+            detailViewController?.detailDescriptionLabel.editable = false
+            detailViewController?.detailDescriptionLabel.text = ""
             return
         }
         saveNote()
