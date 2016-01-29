@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var detailDescriptionLabel: UITextView!
 
@@ -41,6 +41,7 @@ class DetailViewController: UIViewController {
         
         //First responder refers to the first object to receive events, now since we're applying this to a text view, we're talking about keyboard input. When we call this on a text view, this also, in addition to setting this text field as the object to receive keyboard input, it also pops up the keyboard
         detailDescriptionLabel.becomeFirstResponder()
+        detailDescriptionLabel.delegate = self
         self.configureView()
     }
     
@@ -68,6 +69,10 @@ class DetailViewController: UIViewController {
         masterView?.saveNote()
         masterView?.tableView.reloadData()
     }
-
+    
+    func textViewDidChange(textView: UITextView) {
+        objects[currentIndex] = detailDescriptionLabel.text
+        saveAndUpdate()
+    }
 }
 

@@ -66,12 +66,12 @@ class MasterViewController: UITableViewController {
         //show detail is the string identifier that's attached to our detail view
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row]
                 currentIndex = indexPath.row
-                detailViewController?.detailItem = object
-                detailViewController?.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                detailViewController?.navigationItem.leftItemsSupplementBackButton = true
             }
+            let object = objects[currentIndex]
+            detailViewController?.detailItem = object
+            detailViewController?.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+            detailViewController?.navigationItem.leftItemsSupplementBackButton = true
         }
     }
 
