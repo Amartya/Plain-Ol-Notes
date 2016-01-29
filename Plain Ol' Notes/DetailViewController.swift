@@ -43,12 +43,31 @@ class DetailViewController: UIViewController {
         detailDescriptionLabel.becomeFirstResponder()
         self.configureView()
     }
-
+    
+    //The user is going to come into editing mode in the detailView and they're going to type in some text. And they're going to hit the button to exit the detailView and return to the masterViewController, at which time this method is called
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        objects[currentIndex] = detailDescriptionLabel.text
+        
+        if objects.count == 0 {
+            return
+        }
+        
+        if detailDescriptionLabel.text == "" {
+            objects[currentIndex] = BLANK_NOTE
+        }
+        saveAndUpdate()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func saveAndUpdate(){
+        masterView?.saveNote()
+        masterView?.tableView.reloadData()
+    }
 
 }
 
