@@ -19,12 +19,17 @@ class DetailViewController: UIViewController {
             self.configureView()
         }
     }
-
+    
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail = self.detailItem {
-            if let label = self.detailDescriptionLabel {
-                label.text = detail.description
+        if objects.count == 0{
+            return
+        }
+        
+        if let label = self.detailDescriptionLabel {
+            label.text = objects[currentIndex]
+            if label.text == BLANK_NOTE{
+                label.text = ""
             }
         }
     }
@@ -32,6 +37,10 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        detailViewController = self
+        
+        //First responder refers to the first object to receive events, now since we're applying this to a text view, we're talking about keyboard input. When we call this on a text view, this also, in addition to setting this text field as the object to receive keyboard input, it also pops up the keyboard
+        detailDescriptionLabel.becomeFirstResponder()
         self.configureView()
     }
 
