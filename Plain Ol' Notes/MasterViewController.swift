@@ -33,16 +33,31 @@ class MasterViewController: UITableViewController {
         saveNote()
         super.viewWillAppear(animated)
     }
-
+    
+    override func viewDidAppear(animated: Bool) {
+        if objects.count == 0{
+            insertNewObject(self)
+        }
+        
+        super.viewWillDisappear(animated)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     func insertNewObject(sender: AnyObject) {
-        objects.insert(BLANK_NOTE, atIndex: 0)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        //this logic ensures that one does not have multiple blank notes, and we create a blank note IFF there are no notes
+        //or there is a non-empty note on top
+        if objects.count == 0 || objects[0] != BLANK_NOTE{
+            objects.insert(BLANK_NOTE, atIndex: 0)
+            let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+        
+        //every time we insert a new note, it's inserted at the top!
+        currentIndex = 0
+        self.performSegueWithIdentifier("showDetail", sender: self)
     }
  
     // MARK: - Segues
