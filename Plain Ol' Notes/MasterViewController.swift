@@ -107,6 +107,20 @@ class MasterViewController: UITableViewController {
         }
     }
     
+    //this is called whenever we enter or exit editing mode
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing{
+            return
+        }
+        saveNote()
+    }
+    
+    //Now this button is not called when the edit button is pressed, it's called when an item is deleted by swiping it to the left. So we're supporting that as well, and saving that data to persistent storage.
+    override func tableView(tableView: UITableView, didEndEditingRowAtIndexPath indexPath: NSIndexPath) {
+        saveNote()
+    }
+    
     func saveNote(){
         //User defaults saves data to persistent storage using key value pairs, so the key is our "k" all "Notes" which if we scroll to the top of our code is just the string "Notes" and the object that we're saving, or the value, is the value of the object's array.
        NSUserDefaults.standardUserDefaults().setObject(objects, forKey: kNotes)
